@@ -9,7 +9,7 @@ import traceback
 import time
 
 # #region agent log
-log_path = r"c:\Users\micha\Offerttool RMB\.cursor\debug.log"
+log_path = os.environ.get("DEBUG_LOG_PATH", os.path.join(os.path.dirname(__file__), "data", "debug.log"))
 def write_log(message, location, hypothesis_id, data=None):
     try:
         log_dir = os.path.dirname(log_path)
@@ -71,7 +71,6 @@ app = FastAPI(
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     # #region agent log
-    log_path = r"c:\Users\micha\Offerttool RMB\.cursor\debug.log"
     try:
         os.makedirs(os.path.dirname(log_path), exist_ok=True)
         with open(log_path, 'a', encoding='utf-8') as f:
