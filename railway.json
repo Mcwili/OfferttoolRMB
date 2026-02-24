@@ -5,7 +5,8 @@
     "buildCommand": "pip install -r backend/requirements.txt"
   },
   "deploy": {
-    "startCommand": "/bin/sh -c 'cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}'",
-    "healthcheckPath": "/"
+    "startCommand": "/bin/sh -c \"cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT\"",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 60
   }
 }
