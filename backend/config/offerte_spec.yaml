@@ -1,0 +1,52 @@
+mindestanforderungen:
+  projekt:
+    erforderliche_felder:
+      - name
+      - standort
+  
+  raeume:
+    min_anzahl: 1
+    erforderliche_felder:
+      - id
+      - name
+      - flaeche_m2
+  
+  anlagen:
+    min_anzahl: 0
+    erforderliche_felder:
+      - typ
+  
+  geraete:
+    min_anzahl: 0
+    erforderliche_felder:
+      - typ
+
+sia_phasen:
+  - phase: "SIA 103 - Projektierung"
+    erforderliche_leistungen:
+      - "Projektanalyse"
+      - "Raumanalyse"
+      - "Konzeptentwicklung"
+  
+  - phase: "SIA 104 - Vorprojekt"
+    erforderliche_leistungen:
+      - "Vorprojekt"
+      - "Kostenplanung"
+      - "Terminplanung"
+  
+  - phase: "SIA 105 - Bauprojekt"
+    erforderliche_leistungen:
+      - "Bauprojekt"
+      - "Ausschreibung"
+      - "Vergabe"
+
+plausibilitaetsgrenzen:
+  raum:
+    flaeche_min: 1.0  # m²
+    flaeche_max: 10000.0  # m²
+    hoehe_min: 2.0  # m
+    hoehe_max: 10.0  # m
+  
+  anlage:
+    leistung_kw_max: 10000.0  # kW
+    leistung_m3_h_max: 100000.0  # m³/h

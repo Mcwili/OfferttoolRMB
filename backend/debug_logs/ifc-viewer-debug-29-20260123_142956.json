@@ -1,0 +1,857 @@
+{
+  "fileId": 29,
+  "filename": "HEI.ifc",
+  "timestamp": "2026-01-23T13:29:56.402Z",
+  "saved_at": "2026-01-23T14:29:56.620174",
+  "logs": [
+    {
+      "timestamp": "2026-01-23T13:29:43.975Z",
+      "message": "Starting IFC file load",
+      "data": {
+        "fileId": 29,
+        "filename": "HEI.ifc"
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:43.975Z",
+      "message": "Starting blob download",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:44.059Z",
+      "message": "Download progress: 0%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:44.393Z",
+      "message": "Download progress: 6%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:44.727Z",
+      "message": "Download progress: 13%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:45.060Z",
+      "message": "Download progress: 21%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:45.395Z",
+      "message": "Download progress: 27%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:45.728Z",
+      "message": "Download progress: 34%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:46.062Z",
+      "message": "Download progress: 41%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:46.396Z",
+      "message": "Download progress: 49%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:46.732Z",
+      "message": "Download progress: 55%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:47.065Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:47.402Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:47.735Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:48.069Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:48.403Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:48.741Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:49.077Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:49.417Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:49.752Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.091Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.425Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.481Z",
+      "message": "Download progress: 60%",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.481Z",
+      "message": "Blob download completed",
+      "data": {
+        "blobSize": 13761157,
+        "blobType": "application/octet-stream"
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.482Z",
+      "message": "Converting blob to ArrayBuffer",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.525Z",
+      "message": "ArrayBuffer created",
+      "data": {
+        "byteLength": 13761157,
+        "expectedSize": 13761157
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.526Z",
+      "message": "Checking available methods",
+      "data": {
+        "arrayBufferSize": 13761157,
+        "ifcLoaderMethods": [
+          "manager",
+          "crossOrigin",
+          "withCredentials",
+          "path",
+          "resourcePath",
+          "requestHeader",
+          "ifcManager"
+        ],
+        "hasLoadMethod": true,
+        "ifcManagerMethods": [
+          "state",
+          "BVH",
+          "parser",
+          "subsets",
+          "properties",
+          "types",
+          "hider",
+          "cleaner"
+        ],
+        "ifcManagerAvailable": true
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.527Z",
+      "message": "Using direct API URL method",
+      "data": {
+        "fileUrl": "http://localhost:8000/api/v1/files/29/download",
+        "envDev": true,
+        "windowLocation": "http://localhost:3000"
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.528Z",
+      "message": "Calling ifcLoader.load()",
+      "data": {
+        "fileUrl": "http://localhost:8000/api/v1/files/29/download"
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.539Z",
+      "message": "Load progress: 18% (2514944/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.591Z",
+      "message": "Load progress: 19% (2646016/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.643Z",
+      "message": "Load progress: 21% (2850816/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.696Z",
+      "message": "Load progress: 23% (3153920/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.751Z",
+      "message": "Load progress: 25% (3375104/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.802Z",
+      "message": "Load progress: 25% (3440640/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.854Z",
+      "message": "Load progress: 27% (3653632/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.905Z",
+      "message": "Load progress: 29% (3923968/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:50.957Z",
+      "message": "Load progress: 30% (4177920/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.008Z",
+      "message": "Load progress: 32% (4390912/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.058Z",
+      "message": "Load progress: 34% (4644864/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.111Z",
+      "message": "Load progress: 35% (4866048/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.164Z",
+      "message": "Load progress: 37% (5103616/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.215Z",
+      "message": "Load progress: 39% (5300224/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.267Z",
+      "message": "Load progress: 40% (5529600/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.318Z",
+      "message": "Load progress: 42% (5726208/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.372Z",
+      "message": "Load progress: 43% (5939200/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.424Z",
+      "message": "Load progress: 44% (6119424/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.475Z",
+      "message": "Load progress: 46% (6356992/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.526Z",
+      "message": "Load progress: 48% (6578176/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.577Z",
+      "message": "Load progress: 49% (6774784/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.629Z",
+      "message": "Load progress: 50% (6930432/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.679Z",
+      "message": "Load progress: 52% (7102464/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.735Z",
+      "message": "Load progress: 53% (7249920/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.788Z",
+      "message": "Load progress: 54% (7372800/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.840Z",
+      "message": "Load progress: 54% (7487488/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.891Z",
+      "message": "Load progress: 55% (7593984/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.944Z",
+      "message": "Load progress: 56% (7716864/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:51.997Z",
+      "message": "Load progress: 56% (7774208/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.052Z",
+      "message": "Load progress: 57% (7888896/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.109Z",
+      "message": "Load progress: 59% (8060928/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.166Z",
+      "message": "Load progress: 59% (8093696/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.219Z",
+      "message": "Load progress: 60% (8224768/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.272Z",
+      "message": "Load progress: 61% (8380416/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.322Z",
+      "message": "Load progress: 63% (8634368/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.373Z",
+      "message": "Load progress: 65% (8880128/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.424Z",
+      "message": "Load progress: 66% (9093120/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.476Z",
+      "message": "Load progress: 68% (9338880/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.527Z",
+      "message": "Load progress: 70% (9609216/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.578Z",
+      "message": "Load progress: 72% (9863168/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.629Z",
+      "message": "Load progress: 73% (10108928/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.680Z",
+      "message": "Load progress: 75% (10387456/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.732Z",
+      "message": "Load progress: 78% (10690560/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.782Z",
+      "message": "Load progress: 80% (11034624/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.833Z",
+      "message": "Load progress: 82% (11321344/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.884Z",
+      "message": "Load progress: 84% (11599872/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.936Z",
+      "message": "Load progress: 86% (11862016/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:52.987Z",
+      "message": "Load progress: 88% (12091392/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.039Z",
+      "message": "Load progress: 90% (12353536/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.092Z",
+      "message": "Load progress: 92% (12640256/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.144Z",
+      "message": "Load progress: 94% (12918784/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.197Z",
+      "message": "Load progress: 96% (13213696/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.249Z",
+      "message": "Load progress: 98% (13500416/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:53.291Z",
+      "message": "Load progress: 100% (13761157/13761157 bytes)",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.133Z",
+      "message": "IFC model loaded successfully",
+      "data": {
+        "modelType": "object",
+        "isGroup": false,
+        "isObject3D": true,
+        "isMesh": true,
+        "constructor": "IFCModel",
+        "modelKeys": [
+          "uuid",
+          "name",
+          "type",
+          "parent",
+          "children",
+          "up",
+          "position",
+          "rotation",
+          "quaternion",
+          "scale",
+          "matrix",
+          "matrixWorld",
+          "matrixAutoUpdate",
+          "matrixWorldNeedsUpdate",
+          "layers",
+          "visible",
+          "castShadow",
+          "receiveShadow",
+          "frustumCulled",
+          "renderOrder",
+          "animations",
+          "userData",
+          "geometry",
+          "material",
+          "modelID",
+          "ifcManager",
+          "mesh"
+        ],
+        "hasMesh": true,
+        "hasModel": false,
+        "hasScene": false,
+        "children": 0,
+        "visible": true,
+        "totalMeshes": 1
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.172Z",
+      "message": "Geometry analysis",
+      "data": {
+        "hasGroups": true,
+        "groupsCount": 10,
+        "groups": [
+          {
+            "start": 0,
+            "count": 374706,
+            "materialIndex": 0
+          },
+          {
+            "start": 374706,
+            "count": 19440,
+            "materialIndex": 1
+          },
+          {
+            "start": 394146,
+            "count": 63480,
+            "materialIndex": 2
+          },
+          {
+            "start": 457626,
+            "count": 120,
+            "materialIndex": 3
+          },
+          {
+            "start": 457746,
+            "count": 84516,
+            "materialIndex": 4
+          },
+          {
+            "start": 542262,
+            "count": 72,
+            "materialIndex": 5
+          },
+          {
+            "start": 542334,
+            "count": 259488,
+            "materialIndex": 6
+          },
+          {
+            "start": 801822,
+            "count": 744,
+            "materialIndex": 7
+          },
+          {
+            "start": 802566,
+            "count": 25056,
+            "materialIndex": 8
+          },
+          {
+            "start": 827622,
+            "count": 432,
+            "materialIndex": 9
+          }
+        ],
+        "vertices": 571532,
+        "hasIndex": true,
+        "indexCount": 828054
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.175Z",
+      "message": "Material 0 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 16711680
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.176Z",
+      "message": "Material 1 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 16711935
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.177Z",
+      "message": "Material 2 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 8421504
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.177Z",
+      "message": "Material 3 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 8454016
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.190Z",
+      "message": "Material 4 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 65280
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.192Z",
+      "message": "Material 5 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 10092441
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.198Z",
+      "message": "Material 6 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 255
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.208Z",
+      "message": "Material 7 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 16737792
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.214Z",
+      "message": "Material 8 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 32512
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.219Z",
+      "message": "Material 9 configured",
+      "data": {
+        "type": "MeshLambertMaterial",
+        "visible": true,
+        "transparent": false,
+        "opacity": 1,
+        "side": 0,
+        "color": 13369497
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.248Z",
+      "message": "IFCModel added directly to group",
+      "data": {
+        "meshType": "IFCModel",
+        "isIFCModel": true,
+        "isTHREEMesh": true,
+        "meshGeometry": {
+          "vertices": 571532,
+          "type": "BufferGeometry",
+          "hasAttributes": true,
+          "hasGroups": true,
+          "groupsCount": 10
+        },
+        "meshMaterial": {
+          "type": "Array",
+          "isArray": true,
+          "arrayLength": 10
+        },
+        "hasMeshProperty": true,
+        "meshPropertyType": "IFCModel",
+        "frustumCulled": false
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.248Z",
+      "message": "Model created successfully",
+      "data": {
+        "modelChildren": 1,
+        "modelType": "Group",
+        "modelVisible": true,
+        "totalMeshes": 1
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.249Z",
+      "message": "IFC file loading completed successfully",
+      "data": null
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.249Z",
+      "message": "Model structure before adding to scene",
+      "data": {
+        "modelType": "Group",
+        "childrenCount": 1,
+        "visible": true,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.249Z",
+      "message": "Model geometry stats",
+      "data": {
+        "meshCount": 1,
+        "totalVertices": 571532,
+        "hasGeometry": true
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.253Z",
+      "message": "Model added to scene",
+      "data": {
+        "sceneChildren": 6,
+        "sceneObjects": [
+          {
+            "index": 0,
+            "type": "AmbientLight",
+            "visible": true
+          },
+          {
+            "index": 1,
+            "type": "DirectionalLight",
+            "visible": true
+          },
+          {
+            "index": 2,
+            "type": "DirectionalLight",
+            "visible": true
+          },
+          {
+            "index": 3,
+            "type": "AxesHelper",
+            "visible": true
+          },
+          {
+            "index": 4,
+            "type": "Group",
+            "visible": true
+          },
+          {
+            "index": 5,
+            "type": "Group",
+            "visible": true
+          }
+        ],
+        "modelMatrixWorld": "set"
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.254Z",
+      "message": "Model bounding box",
+      "data": {
+        "min": {
+          "x": -24.635799407958984,
+          "y": -12.710000038146973,
+          "z": -74.68689727783203
+        },
+        "max": {
+          "x": 50.158729553222656,
+          "y": 21.913150787353516,
+          "z": 0.125
+        },
+        "center": {
+          "x": 12.761465072631836,
+          "y": 4.6015753746032715,
+          "z": -37.280948638916016
+        },
+        "size": {
+          "x": 74.79452896118164,
+          "y": 34.62315082550049,
+          "z": 74.81189727783203
+        },
+        "isEmpty": false
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.256Z",
+      "message": "Camera positioned",
+      "data": {
+        "position": {
+          "x": 12.761465072631836,
+          "y": 4.6015753746032715,
+          "z": 35.84162340322946
+        },
+        "target": {
+          "x": 12.761465072631836,
+          "y": 4.6015753746032715,
+          "z": -37.280948638916016
+        },
+        "maxDim": 74.81189727783203,
+        "cameraZ": 73.12257204214548
+      }
+    },
+    {
+      "timestamp": "2026-01-23T13:29:56.256Z",
+      "message": "IFC file loading completed successfully",
+      "data": null
+    }
+  ],
+  "summary": {
+    "totalLogs": 104,
+    "errors": 0,
+    "warnings": 0
+  }
+}

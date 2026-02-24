@@ -1,0 +1,1 @@
+"""HLKS Planungsanalyse Backend Application"""

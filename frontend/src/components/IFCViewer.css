@@ -1,0 +1,210 @@
+.ifc-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.4rem;
+  overflow: hidden;
+}
+
+.ifc-viewer-content {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 11.76px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+  width: 95%;
+  height: 90vh;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ifc-viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ifc-viewer-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.ifc-viewer-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5.6px;
+  transition: all 0.2s ease;
+}
+
+.ifc-viewer-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.ifc-viewer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  flex-wrap: wrap;
+}
+
+.ifc-viewer-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.49rem 0.98rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5.6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ifc-viewer-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ifc-viewer-btn:active {
+  transform: translateY(0);
+}
+
+.ifc-viewer-info {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.ifc-viewer-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.ifc-viewer-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ifc-viewer-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+}
+
+.ifc-viewer-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(0, 122, 255, 0.2);
+  border-top-color: #007aff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ifc-viewer-loading p {
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.ifc-viewer-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 10;
+  padding: 2rem;
+  text-align: center;
+}
+
+.ifc-viewer-error span {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.ifc-viewer-error p {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 1.4rem;
+  max-width: 500px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ifc-viewer-content {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .ifc-viewer-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ifc-viewer-info {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .ifc-viewer-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
