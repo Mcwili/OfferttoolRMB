@@ -10,10 +10,10 @@ import json
 import os
 import time
 
-from app.core.config import settings
+from app.core.config import settings, DEBUG_LOG_PATH
 
 # #region agent log
-log_path = r"c:\Users\micha\Offerttool RMB\.cursor\debug.log"
+log_path = DEBUG_LOG_PATH
 try:
     with open(log_path, 'a', encoding='utf-8') as f:
         f.write(json.dumps({"sessionId":"debug-session","runId":"startup","hypothesisId":"B","location":"database.py:init","message":"Initializing database","data":{"database_url":settings.DATABASE_URL[:50]},"timestamp":int(time.time()*1000)})+"\n")

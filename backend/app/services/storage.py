@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 import boto3
 from botocore.config import Config
 
-from app.core.config import settings
+from app.core.config import settings, DEBUG_LOG_PATH
 
 # Singleton-Instanz
 _storage_service_instance = None
@@ -22,7 +22,7 @@ class StorageService:
         """S3-Client initialisieren oder lokales Dateisystem verwenden"""
         import json
         import time
-        log_path = r"c:\Users\micha\Offerttool RMB\.cursor\debug.log"
+        log_path = DEBUG_LOG_PATH
         # #region agent log
         try:
             with open(log_path, 'a', encoding='utf-8') as f:

@@ -16,7 +16,7 @@ import json
 from io import BytesIO
 
 from app.core.database import get_db, SessionLocal
-from app.core.config import settings
+from app.core.config import settings, DEBUG_LOG_PATH
 from app.models.project import Project, ProjectFile, ProjectData
 from app.services.storage import get_storage_service
 from app.services.file_classifier import FileClassifier
@@ -76,7 +76,7 @@ async def trigger_extraction_background(project_id: int):
     # #region agent log
     import json
     try:
-        with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+        with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
             f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"B","location":"files.py:60","message":"Background task started","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
     except: pass
     # #endregion
@@ -86,7 +86,7 @@ async def trigger_extraction_background(project_id: int):
         project = db.query(Project).filter(Project.id == project_id).first()
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"B","location":"files.py:68","message":"Project loaded","data":{"project_id":project_id,"project_found":project is not None,"project_status":project.status if project else None},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -99,7 +99,7 @@ async def trigger_extraction_background(project_id: int):
         db.commit()
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"B","location":"files.py:75","message":"Status set to processing","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -111,7 +111,7 @@ async def trigger_extraction_background(project_id: int):
         ).all()
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"D","location":"files.py:82","message":"Files to process found","data":{"project_id":project_id,"files_count":len(files_to_process),"file_ids":[f.id for f in files_to_process]},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -132,7 +132,7 @@ async def trigger_extraction_background(project_id: int):
         ).first()
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"files.py:96","message":"ProjectData lookup","data":{"project_id":project_id,"current_data_found":current_data is not None,"current_data_id":current_data.id if current_data else None},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -142,7 +142,7 @@ async def trigger_extraction_background(project_id: int):
             logger.info(f"Kein aktives Datenmodell für Projekt {project_id} gefunden, erstelle neues")
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"files.py:100","message":"Creating new ProjectData","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
@@ -163,7 +163,7 @@ async def trigger_extraction_background(project_id: int):
             db.refresh(current_data)
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"A","location":"files.py:137","message":"ProjectData created","data":{"project_id":project_id,"current_data_id":current_data.id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
@@ -177,7 +177,7 @@ async def trigger_extraction_background(project_id: int):
         extraction_service = ExtractionService(db)
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"C","location":"files.py:103","message":"Starting extraction loop","data":{"project_id":project_id,"files_to_process_count":len(files_to_process)},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -186,7 +186,7 @@ async def trigger_extraction_background(project_id: int):
         for file_obj in files_to_process:
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"C","location":"files.py:107","message":"Processing file","data":{"project_id":project_id,"file_id":file_obj.id,"filename":file_obj.original_filename,"file_type":file_obj.file_type},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
@@ -195,7 +195,7 @@ async def trigger_extraction_background(project_id: int):
                 extracted_data = await extraction_service.extract_file(file_obj)
                 # #region agent log
                 try:
-                    with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                    with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                         f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"C","location":"files.py:110","message":"Extraction completed","data":{"project_id":project_id,"file_id":file_obj.id,"extracted_keys":list(extracted_data.keys()) if extracted_data else []},"timestamp":int(__import__('time').time()*1000)}) + '\n')
                 except: pass
                 # #endregion
@@ -276,7 +276,7 @@ async def trigger_extraction_background(project_id: int):
                 files_processed += 1
                 # #region agent log
                 try:
-                    with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                    with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                         f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"D","location":"files.py:119","message":"File marked as processed","data":{"project_id":project_id,"file_id":file_obj.id,"files_processed":files_processed},"timestamp":int(__import__('time').time()*1000)}) + '\n')
                 except: pass
                 # #endregion
@@ -286,7 +286,7 @@ async def trigger_extraction_background(project_id: int):
                 file_obj.processing_error = str(e)
                 # #region agent log
                 try:
-                    with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                    with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                         f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"C","location":"files.py:124","message":"Extraction error","data":{"project_id":project_id,"file_id":file_obj.id,"error":str(e)},"timestamp":int(__import__('time').time()*1000)}) + '\n')
                 except: pass
                 # #endregion
@@ -325,7 +325,7 @@ async def trigger_extraction_background(project_id: int):
             current_data = new_data  # Verwende die neue Version für weitere Prüfungen
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"E","location":"files.py:139","message":"New ProjectData version created","data":{"project_id":project_id,"old_version":old_version,"new_version":old_version+1},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
@@ -334,7 +334,7 @@ async def trigger_extraction_background(project_id: int):
         all_files = db.query(ProjectFile).filter(ProjectFile.project_id == project_id).all()
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"D","location":"files.py:142","message":"Checking all files processed","data":{"project_id":project_id,"all_files_count":len(all_files),"all_processed":all(file.processed for file in all_files) if all_files else False,"processed_statuses":[{"id":f.id,"processed":f.processed} for f in all_files]},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -345,7 +345,7 @@ async def trigger_extraction_background(project_id: int):
             db.refresh(project)
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"D","location":"files.py:144","message":"Status set to validated","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
@@ -362,14 +362,14 @@ async def trigger_extraction_background(project_id: int):
             db.refresh(project)
             # #region agent log
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"D","location":"files.py:148","message":"Status updated","data":{"project_id":project_id,"files_processed":files_processed,"status":project.status,"unprocessed_with_errors":len(unprocessed_with_errors)},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion
             logger.info(f"Projekt {project_id}: {files_processed} Datei(en) verarbeitet, Status: {project.status}")
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"E","location":"files.py:150","message":"Commit completed","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -377,7 +377,7 @@ async def trigger_extraction_background(project_id: int):
     except Exception as e:
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"C","location":"files.py:152","message":"Exception in background task","data":{"project_id":project_id,"error":str(e),"error_type":type(e).__name__},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -386,7 +386,7 @@ async def trigger_extraction_background(project_id: int):
     finally:
         # #region agent log
         try:
-            with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                 f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"B","location":"files.py:156","message":"Background task finished","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
         except: pass
         # #endregion
@@ -595,7 +595,7 @@ async def upload_file(
             # #region agent log
             import json
             try:
-                with open(r'c:\Users\micha\Offerttool RMB\.cursor\debug.log', 'a', encoding='utf-8') as f:
+                with open(DEBUG_LOG_PATH, 'a', encoding='utf-8') as f:
                     f.write(json.dumps({"sessionId":"debug-session","runId":"run1","hypothesisId":"B","location":"files.py:284","message":"Adding background task (ZIP)","data":{"project_id":project_id},"timestamp":int(__import__('time').time()*1000)}) + '\n')
             except: pass
             # #endregion

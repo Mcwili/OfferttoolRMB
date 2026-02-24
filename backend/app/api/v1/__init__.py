@@ -8,8 +8,10 @@ import json
 import os
 import time
 
+from app.core.config import DEBUG_LOG_PATH
+
 # #region agent log
-log_path = r"c:\Users\micha\Offerttool RMB\.cursor\debug.log"
+log_path = DEBUG_LOG_PATH
 def write_log(message, location, hypothesis_id, data=None):
     try:
         os.makedirs(os.path.dirname(log_path), exist_ok=True)

@@ -3,8 +3,13 @@ Konfigurationsverwaltung für die Anwendung
 Nutzt Pydantic Settings für Umgebungsvariablen
 """
 
+import os
 from pydantic_settings import BaseSettings
 from typing import List
+
+# Pfad für Debug-Log (plattformunabhängig, über DEBUG_LOG_PATH überschreibbar)
+_log_base = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+DEBUG_LOG_PATH = os.environ.get("DEBUG_LOG_PATH", os.path.join(_log_base, "data", "debug.log"))
 
 
 class Settings(BaseSettings):
