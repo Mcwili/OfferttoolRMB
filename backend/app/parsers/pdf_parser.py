@@ -1,6 +1,7 @@
 """
 PDF-Parser
 Verwendet pdfplumber für Text, Bilder und Tabellen
+OCR-Fallback für gescannte PDFs (ohne Text-Layer)
 """
 
 from typing import Dict, Any, List
@@ -17,6 +18,15 @@ try:
     CAMELOT_AVAILABLE = True
 except ImportError:
     CAMELOT_AVAILABLE = False
+
+# Optional - OCR für gescannte PDFs
+try:
+    import pytesseract
+    from pdf2image import convert_from_bytes
+    from app.core.config import settings
+    OCR_FALLBACK_AVAILABLE = True
+except ImportError:
+    OCR_FALLBACK_AVAILABLE = False
 
 
 class PDFParser:
@@ -55,6 +65,14 @@ class PDFParser:
             
             # Text extrahieren
             text_content = self._extract_text(pdf)
+            
+            # OCR-Fallback: Wenn wenig/kein Text (gescanntes PDF), OCR anwenden
+            if (not text_content or len(text_content.strip()) < 50) and OCR_FALLBACK_AVAILABLE:
+                ocr_text = await self._ocr_fallback(file_content)
+                if ocr_text:
+                    text_content = ocr_text
+                    extracted_data["metadata"]["ocr_used"] = True
+            
             extracted_data["full_text"] = text_content
             
             # Bilder extrahieren
@@ -66,19 +84,54 @@ class PDFParser:
             tables = self._extract_tables(pdf, source_info)
             extracted_data["raw_tables"].extend(tables)
             
-            # Entitäten aus Text und Tabellen erkennen
-            # TODO: NLP-basierte Erkennung implementieren
+            # Textabschnitte als Anforderungen nutzen (für Rechtliche Prüfung/Frageliste)
+            if text_content.strip():
+                extracted_data["anforderungen"] = self._text_to_anforderungen(
+                    text_content, source_info
+                )
         
         return extracted_data
     
     def _extract_text(self, pdf) -> str:
-        """Extrahiert Text aus PDF"""
+        """Extrahiert Text aus PDF (Text-Layer)"""
         text_parts = []
         for page_num, page in enumerate(pdf.pages, 1):
             page_text = page.extract_text()
             if page_text:
                 text_parts.append(f"--- Seite {page_num} ---\n{page_text}")
         return "\n\n".join(text_parts)
+    
+    async def _ocr_fallback(self, file_content: bytes) -> str:
+        """OCR-Fallback für gescannte PDFs ohne Text-Layer"""
+        if not OCR_FALLBACK_AVAILABLE:
+            return ""
+        try:
+            images = convert_from_bytes(file_content, dpi=200)
+            text_parts = []
+            for page_num, image in enumerate(images, 1):
+                ocr_text = pytesseract.image_to_string(
+                    image,
+                    lang=getattr(settings, "OCR_LANGUAGE", "deu+eng"),
+                    config="--psm 6"
+                )
+                if ocr_text.strip():
+                    text_parts.append(f"--- Seite {page_num} ---\n{ocr_text.strip()}")
+            return "\n\n".join(text_parts) if text_parts else ""
+        except Exception:
+            return ""
+    
+    def _text_to_anforderungen(self, text: str, source_info: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Konvertiert extrahierten Text in Anforderungen (für Rechtliche Prüfung)"""
+        anforderungen = []
+        # Absätze als Anforderungen (mind. 20 Zeichen)
+        paragraphs = [p.strip() for p in text.split("\n\n") if p.strip() and len(p.strip()) >= 20]
+        for idx, para in enumerate(paragraphs[:100]):  # Max 100 Absätze
+            anforderungen.append({
+                "id": f"ANF_{idx:04d}",
+                "beschreibung": para[:2000],  # Begrenzen
+                "quelle": {**source_info, "absatz": idx, "typ": "pdf_text"}
+            })
+        return anforderungen
     
     async def _extract_images(self, pdf, source_info: Dict[str, Any], file_obj: ProjectFile) -> List[Dict[str, Any]]:
         """Extrahiert alle Bilder aus PDF"""
