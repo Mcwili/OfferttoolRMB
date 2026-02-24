@@ -9,7 +9,7 @@ RUN npm ci 2>/dev/null || npm install
 COPY frontend/ .
 # API-Relativ-URL für Same-Origin-Deployment
 ENV VITE_API_URL=/api
-RUN npm run build
+RUN npm run build:deploy
 
 # Stage 2: Backend + statische Frontend-Dateien
 FROM python:3.12-slim
