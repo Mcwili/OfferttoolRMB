@@ -3,9 +3,12 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# System dependencies (poppler for pdf2image, etc.)
+# System dependencies: poppler (pdf2image), build tools (matplotlib from source)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     poppler-utils \
+    build-essential \
+    libfreetype6-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Python dependencies
