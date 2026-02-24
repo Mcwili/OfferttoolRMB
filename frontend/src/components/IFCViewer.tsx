@@ -28,13 +28,11 @@ const IFCViewer = ({ fileId, filename, onClose }: IFCViewerProps) => {
     // Debug-Mode Logging: Schreibe direkt in Log-Datei via Server-Endpoint und Backend-API
     const writeDebugLog = (location: string, message: string, hypothesisId: string, data?: any) => {
       const logEntry = {location,message,data:data||{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId};
-      // #region agent log
-      // Versuche Server-Endpoint (Debug-Mode)
-      fetch('http://127.0.0.1:7243/ingest/461f330f-a3db-4054-ad59-c1077cc77e55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(logEntry)}).catch(()=>{});
-      // Fallback: Backend-API
+      if (import.meta.env.DEV) {
+        fetch('http://127.0.0.1:7243/ingest/461f330f-a3db-4054-ad59-c1077cc77e55',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(logEntry)}).catch(()=>{});
+      }
       const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
       fetch(`${apiBaseUrl}/v1/debug-logs-direct`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(logEntry)}).catch(()=>{});
-      // #endregion
       console.log(`[${hypothesisId}] ${message}`, data);
     };
     

@@ -49,33 +49,38 @@ async def create_project(
     db: Session = Depends(get_db)
 ):
     """Neues Projekt anlegen"""
-    db_project = Project(
-        name=project.name,
-        description=project.description,
-        standort=project.standort
-    )
-    db.add(db_project)
-    db.commit()
-    db.refresh(db_project)
-    
-    # Initiales leeres JSON-Modell erstellen
-    from app.schemas.project_data_schema import create_empty_project_data
-    initial_data = create_empty_project_data(
-        project_name=db_project.name,
-        project_id=db_project.id,
-        standort=db_project.standort
-    )
-    
-    db_data = ProjectData(
-        project_id=db_project.id,
-        version=1,
-        data_json=initial_data,
-        is_active=True
-    )
-    db.add(db_data)
-    db.commit()
-    
-    return db_project
+    try:
+        db_project = Project(
+            name=project.name,
+            description=project.description,
+            standort=project.standort
+        )
+        db.add(db_project)
+        db.commit()
+        db.refresh(db_project)
+        
+        from app.schemas.project_data_schema import create_empty_project_data
+        initial_data = create_empty_project_data(
+            project_name=db_project.name,
+            project_id=db_project.id,
+            standort=db_project.standort
+        )
+        
+        db_data = ProjectData(
+            project_id=db_project.id,
+            version=1,
+            data_json=initial_data,
+            is_active=True
+        )
+        db.add(db_data)
+        db.commit()
+        return db_project
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Anlegen des Projekts: {str(e)}"
+        )
 
 
 @router.get("/", response_model=List[ProjectResponse])
@@ -324,20 +329,29 @@ async def update_project(
     db: Session = Depends(get_db)
 ):
     """Projekt aktualisieren"""
-    project = db.query(Project).filter(Project.id == project_id).first()
-    if not project:
+    try:
+        project = db.query(Project).filter(Project.id == project_id).first()
+        if not project:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Projekt mit ID {project_id} nicht gefunden"
+            )
+        
+        project.name = project_update.name
+        project.description = project_update.description
+        project.standort = project_update.standort
+        
+        db.commit()
+        db.refresh(project)
+        return project
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Projekt mit ID {project_id} nicht gefunden"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Aktualisieren des Projekts: {str(e)}"
         )
-    
-    project.name = project_update.name
-    project.description = project_update.description
-    project.standort = project_update.standort
-    
-    db.commit()
-    db.refresh(project)
-    return project
 
 
 @router.delete("/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -346,34 +360,39 @@ async def delete_project(
     db: Session = Depends(get_db)
 ):
     """Projekt löschen (inkl. zugehöriger Dateien und Daten)"""
-    project = db.query(Project).filter(Project.id == project_id).first()
-    if not project:
+    try:
+        project = db.query(Project).filter(Project.id == project_id).first()
+        if not project:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Projekt mit ID {project_id} nicht gefunden"
+            )
+        
+        from app.models.project import ProjectFile
+        from app.services.storage import get_storage_service
+        
+        files = db.query(ProjectFile).filter(ProjectFile.project_id == project_id).all()
+        storage_service = get_storage_service()
+        
+        for file_obj in files:
+            try:
+                await storage_service.delete_file(file_obj.file_path)
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Fehler beim Löschen der Datei {file_obj.file_path} aus Storage: {e}")
+        
+        db.delete(project)
+        db.commit()
+        return None
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Projekt mit ID {project_id} nicht gefunden"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Löschen des Projekts: {str(e)}"
         )
-    
-    # Lade alle zugehörigen Dateien, um sie aus dem Storage zu löschen
-    from app.models.project import ProjectFile
-    from app.services.storage import get_storage_service
-    
-    files = db.query(ProjectFile).filter(ProjectFile.project_id == project_id).all()
-    storage_service = get_storage_service()
-    
-    # Lösche alle Dateien aus dem Storage
-    for file_obj in files:
-        try:
-            await storage_service.delete_file(file_obj.file_path)
-        except Exception as e:
-            # Logge Fehler, aber breche nicht ab
-            import logging
-            logger = logging.getLogger(__name__)
-            logger.warning(f"Fehler beim Löschen der Datei {file_obj.file_path} aus Storage: {e}")
-    
-    # Projekt löschen (cascade löscht automatisch Files und Data-Snapshots aus DB)
-    db.delete(project)
-    db.commit()
-    return None
 
 
 @router.get("/{project_id}/data", response_model=Dict[str, Any])

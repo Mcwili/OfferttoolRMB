@@ -32,46 +32,50 @@ async def validate_project(
     Führt Validierung für ein Projekt durch
     Prüft Konsistenz, YAML-Vorgaben und generiert Fragenliste
     """
-    project = db.query(Project).filter(Project.id == project_id).first()
-    if not project:
+    try:
+        project = db.query(Project).filter(Project.id == project_id).first()
+        if not project:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Projekt mit ID {project_id} nicht gefunden"
+            )
+        
+        data = db.query(ProjectData).filter(
+            ProjectData.project_id == project_id,
+            ProjectData.is_active == True
+        ).first()
+        
+        if not data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Kein Datenmodell für dieses Projekt gefunden"
+            )
+        
+        validation_service = ValidationService()
+        validation_result = await validation_service.validate_project_data(data.data_json)
+        
+        data.data_json["pruefungs_ergebnisse"] = {
+            "konsistenz_ok": validation_result["konsistenz_ok"],
+            "fehler": [issue.dict() for issue in validation_result["fehler"]],
+            "warnungen": [issue.dict() for issue in validation_result["warnungen"]],
+            "hinweise": [issue.dict() for issue in validation_result["hinweise"]]
+        }
+        
+        if validation_result["konsistenz_ok"]:
+            project.status = "validated"
+        else:
+            project.status = "validation_errors"
+        
+        db.commit()
+        return validation_result
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Projekt mit ID {project_id} nicht gefunden"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler bei der Validierung: {str(e)}"
         )
-    
-    # Aktuelles Datenmodell laden
-    data = db.query(ProjectData).filter(
-        ProjectData.project_id == project_id,
-        ProjectData.is_active == True
-    ).first()
-    
-    if not data:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Kein Datenmodell für dieses Projekt gefunden"
-        )
-    
-    # Validierung durchführen
-    validation_service = ValidationService()
-    validation_result = await validation_service.validate_project_data(data.data_json)
-    
-    # Ergebnisse im Datenmodell speichern
-    data.data_json["pruefungs_ergebnisse"] = {
-        "konsistenz_ok": validation_result["konsistenz_ok"],
-        "fehler": [issue.dict() for issue in validation_result["fehler"]],
-        "warnungen": [issue.dict() for issue in validation_result["warnungen"]],
-        "hinweise": [issue.dict() for issue in validation_result["hinweise"]]
-    }
-    
-    # Projekt-Status aktualisieren
-    if validation_result["konsistenz_ok"]:
-        project.status = "validated"
-    else:
-        project.status = "validation_errors"
-    
-    db.commit()
-    
-    return validation_result
 
 
 @router.get("/project/{project_id}/issues", response_model=ValidationResponse)

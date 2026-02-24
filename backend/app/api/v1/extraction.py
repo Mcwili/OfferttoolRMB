@@ -131,25 +131,31 @@ async def extract_project_data(
             file_obj.processing_error = str(e)
             # Datei wird nicht als verarbeitet markiert, kann später erneut versucht werden
     
-    # Neue Version des JSON-Modells speichern
-    old_version = current_data.version
-    current_data.is_active = False
-    
-    new_data = ProjectData(
-        project_id=project_id,
-        version=old_version + 1,
-        data_json=current_data.data_json,
-        is_active=True
-    )
-    db.add(new_data)
-    db.commit()
-    
-    return ExtractionResponse(
-        success=True,
-        files_processed=files_processed,
-        entities_extracted=entities_count,
-        message=f"{files_processed} Datei(en) erfolgreich verarbeitet"
-    )
+    try:
+        old_version = current_data.version
+        current_data.is_active = False
+        
+        new_data = ProjectData(
+            project_id=project_id,
+            version=old_version + 1,
+            data_json=current_data.data_json,
+            is_active=True
+        )
+        db.add(new_data)
+        db.commit()
+        
+        return ExtractionResponse(
+            success=True,
+            files_processed=files_processed,
+            entities_extracted=entities_count,
+            message=f"{files_processed} Datei(en) erfolgreich verarbeitet"
+        )
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Speichern der Extraktion: {str(e)}"
+        )
 
 
 @router.get("/project/{project_id}/data", response_model=Dict[str, Any])

@@ -609,10 +609,9 @@ async def upload_file(
             return upload_response
     
     except HTTPException:
-        # HTTP-Fehler weiterwerfen
         raise
     except Exception as e:
-        # Alle anderen Fehler loggen und als 500 zurückgeben
+        db.rollback()
         import traceback
         error_details = traceback.format_exc()
         error_msg = f"Fehler beim Upload: {type(e).__name__}: {str(e)}"
@@ -805,17 +804,25 @@ async def delete_file(
     db: Session = Depends(get_db)
 ):
     """Datei löschen"""
-    file = db.query(ProjectFile).filter(ProjectFile.id == file_id).first()
-    if not file:
+    try:
+        file = db.query(ProjectFile).filter(ProjectFile.id == file_id).first()
+        if not file:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Datei mit ID {file_id} nicht gefunden"
+            )
+        
+        storage_service = get_storage_service()
+        await storage_service.delete_file(file.file_path)
+        
+        db.delete(file)
+        db.commit()
+        return None
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Datei mit ID {file_id} nicht gefunden"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Löschen der Datei: {str(e)}"
         )
-    
-    # Datei aus Storage löschen
-    storage_service = get_storage_service()
-    await storage_service.delete_file(file.file_path)
-    
-    db.delete(file)
-    db.commit()
-    return None

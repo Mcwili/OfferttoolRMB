@@ -132,6 +132,17 @@ except Exception as e:
     raise
 
 
+@app.on_event("startup")
+async def startup():
+    """Erstellt fehlende DB-Tabellen beim Start (wichtig für Deployment ohne manuelle Migrationen)."""
+    try:
+        from app.core.database import engine, Base
+        import app.models  # Registriert alle Models bei Base
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        write_log("DB-Tabellenerstellung fehlgeschlagen", "main.py:startup", "B", {"error": str(e)[:200]})
+
+
 @app.get("/health")
 async def health_check():
     """Detaillierter Health Check"""

@@ -17,14 +17,13 @@ class LegalReviewReporter:
     """Reporter für rechtliche Prüfung"""
     
     def __init__(self):
-        # Pfad zur Vorlage relativ zum Projekt-Root
-        # __file__ ist: backend/app/reporters/legal_review_reporter.py
-        # Projekt-Root ist: backend/../
-        backend_dir = Path(__file__).parent.parent.parent  # Von reporters -> app -> backend
+        # Pfad zur Vorlage: backend/Vorlagen (Deployment) oder Projekt-Root/Vorlagen (lokal)
+        backend_dir = Path(__file__).resolve().parent.parent.parent  # Von reporters -> app -> backend
         project_root = backend_dir.parent  # Projekt-Root (ein Verzeichnis höher)
         
-        # Versuche verschiedene Pfade
         template_paths = [
+            backend_dir / "data" / "Vorlagen" / "RMB A4 hoch.docx",  # Deployment: /app/data/Vorlagen
+            backend_dir / "Vorlagen" / "RMB A4 hoch.docx",
             project_root / "Vorlagen" / "RMB A4 hoch.docx",
             Path("Vorlagen") / "RMB A4 hoch.docx",
             Path("../Vorlagen") / "RMB A4 hoch.docx",
@@ -38,9 +37,8 @@ class LegalReviewReporter:
                 self.template_path = path
                 break
         
-        # Fallback: Verwende den erwarteten Pfad
         if self.template_path is None:
-            self.template_path = project_root / "Vorlagen" / "RMB A4 hoch.docx"
+            self.template_path = backend_dir / "data" / "Vorlagen" / "RMB A4 hoch.docx"
     
     def _format_general_assessment(self, doc: Document, text: str):
         """

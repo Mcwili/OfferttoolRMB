@@ -30,7 +30,9 @@ class StorageService:
         except: pass
         # #endregion
         self.use_local_storage = False
-        self.local_storage_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads")
+        # data/uploads: Konsolidiert mit DB/Vorlagen unter data/ für Railway-Volume /app/data
+        backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        self.local_storage_path = os.path.join(backend_dir, "data", "uploads")
         self.s3_client = None
         self.bucket = settings.S3_BUCKET
         

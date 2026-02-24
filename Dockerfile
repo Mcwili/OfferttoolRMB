@@ -16,9 +16,12 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# System dependencies: poppler (pdf2image), build tools (matplotlib from source)
+# System dependencies: poppler (pdf2image), tesseract (OCR), build tools (matplotlib)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-deu \
+    tesseract-ocr-eng \
     build-essential \
     libfreetype6-dev \
     pkg-config \

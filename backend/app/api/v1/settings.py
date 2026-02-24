@@ -16,6 +16,12 @@ from app.models.settings import AppSettings
 router = APIRouter()
 
 
+def _get_templates_dir() -> Path:
+    """Vorlagen unter data/: Konsolidiert für Railway-Volume /app/data."""
+    backend_dir = Path(__file__).resolve().parent.parent.parent.parent
+    return backend_dir / "data" / "Vorlagen"
+
+
 class SettingResponse(BaseModel):
     """Schema für Setting-Antwort"""
     key: str
@@ -58,39 +64,55 @@ async def update_setting(
     db: Session = Depends(get_db)
 ):
     """Aktualisiert oder erstellt eine Einstellung"""
-    setting = db.query(AppSettings).filter(AppSettings.key == key).first()
-    
-    if setting:
-        # Update existing setting
-        setting.value = setting_update.value
-        if setting_update.description:
-            setting.description = setting_update.description
-    else:
-        # Create new setting
-        setting = AppSettings(
-            key=key,
-            value=setting_update.value,
-            description=setting_update.description
+    try:
+        setting = db.query(AppSettings).filter(AppSettings.key == key).first()
+        
+        if setting:
+            # Update existing setting
+            setting.value = setting_update.value
+            if setting_update.description:
+                setting.description = setting_update.description
+        else:
+            # Create new setting
+            setting = AppSettings(
+                key=key,
+                value=setting_update.value,
+                description=setting_update.description
+            )
+            db.add(setting)
+        
+        db.commit()
+        db.refresh(setting)
+        return setting
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Speichern: {str(e)}"
         )
-        db.add(setting)
-    
-    db.commit()
-    db.refresh(setting)
-    return setting
 
 
 @router.delete("/{key}")
 async def delete_setting(key: str, db: Session = Depends(get_db)):
     """Löscht eine Einstellung"""
-    setting = db.query(AppSettings).filter(AppSettings.key == key).first()
-    if not setting:
+    try:
+        setting = db.query(AppSettings).filter(AppSettings.key == key).first()
+        if not setting:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Einstellung mit Key '{key}' nicht gefunden"
+            )
+        db.delete(setting)
+        db.commit()
+        return {"message": f"Einstellung '{key}' wurde gelöscht"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Einstellung mit Key '{key}' nicht gefunden"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Fehler beim Löschen: {str(e)}"
         )
-    db.delete(setting)
-    db.commit()
-    return {"message": f"Einstellung '{key}' wurde gelöscht"}
 
 
 @router.get("/legal-review-template/status")
@@ -98,10 +120,7 @@ async def get_legal_review_template_status():
     """
     Prüft, ob eine Word-Vorlage für die rechtliche Prüfung vorhanden ist
     """
-    # Bestimme Speicherort (Vorlagen-Verzeichnis im Projekt-Root)
-    backend_dir = Path(__file__).parent.parent.parent.parent
-    project_root = backend_dir.parent
-    templates_dir = project_root / "Vorlagen"
+    templates_dir = _get_templates_dir()
     template_path = templates_dir / "RMB A4 hoch.docx"
     
     exists = template_path.exists()
@@ -147,12 +166,8 @@ async def upload_legal_review_template(
                 detail="Die Datei ist leer"
             )
         
-        # Bestimme Speicherort (Vorlagen-Verzeichnis im Projekt-Root)
-        # Von backend/app/api/v1/settings.py -> backend -> project root
-        backend_dir = Path(__file__).parent.parent.parent.parent
-        project_root = backend_dir.parent
-        templates_dir = project_root / "Vorlagen"
-        templates_dir.mkdir(exist_ok=True)
+        templates_dir = _get_templates_dir()
+        templates_dir.mkdir(parents=True, exist_ok=True)
         
         # Speichere Vorlage
         template_path = templates_dir / "RMB A4 hoch.docx"
@@ -179,6 +194,7 @@ async def upload_legal_review_template(
                 db.add(setting)
             db.commit()
         except Exception as e:
+            db.rollback()
             # Fehler beim Speichern in DB ist nicht kritisch, Datei wurde bereits gespeichert
             print(f"Warnung: Fehler beim Speichern des Pfads in DB: {e}")
         
@@ -207,10 +223,7 @@ async def get_question_list_template_status():
     """
     Prüft, ob eine Word-Vorlage für die Frageliste vorhanden ist
     """
-    # Bestimme Speicherort (Vorlagen-Verzeichnis im Projekt-Root)
-    backend_dir = Path(__file__).parent.parent.parent.parent
-    project_root = backend_dir.parent
-    templates_dir = project_root / "Vorlagen"
+    templates_dir = _get_templates_dir()
     template_path = templates_dir / "Frageliste Vorlage.docx"
     
     exists = template_path.exists()
@@ -256,12 +269,8 @@ async def upload_question_list_template(
                 detail="Die Datei ist leer"
             )
         
-        # Bestimme Speicherort (Vorlagen-Verzeichnis im Projekt-Root)
-        # Von backend/app/api/v1/settings.py -> backend -> project root
-        backend_dir = Path(__file__).parent.parent.parent.parent
-        project_root = backend_dir.parent
-        templates_dir = project_root / "Vorlagen"
-        templates_dir.mkdir(exist_ok=True)
+        templates_dir = _get_templates_dir()
+        templates_dir.mkdir(parents=True, exist_ok=True)
         
         # Speichere Vorlage
         template_path = templates_dir / "Frageliste Vorlage.docx"
@@ -288,6 +297,7 @@ async def upload_question_list_template(
                 db.add(setting)
             db.commit()
         except Exception as e:
+            db.rollback()
             # Fehler beim Speichern in DB ist nicht kritisch, Datei wurde bereits gespeichert
             print(f"Warnung: Fehler beim Speichern des Pfads in DB: {e}")
         
