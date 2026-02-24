@@ -17,9 +17,8 @@ env
 *.swp
 *.swo
 
-# Frontend (nicht für Backend-Deploy nötig)
-frontend
-node_modules
+# Frontend node_modules (wird im Build-Stage neu installiert)
+frontend/node_modules
 
 # Lokale Daten
 backend/data/*.db

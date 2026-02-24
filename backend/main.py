@@ -36,6 +36,7 @@ try:
     from fastapi import FastAPI, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import JSONResponse
+    from fastapi.staticfiles import StaticFiles
     write_log("FastAPI imported", "main.py:fastapi_import", "ALL")
 except Exception as e:
     write_log("FastAPI import failed", "main.py:fastapi_import", "ALL", {"error":str(e),"traceback":traceback.format_exc()[:500]})
@@ -131,18 +132,6 @@ except Exception as e:
     raise
 
 
-@app.get("/")
-async def root():
-    """Health Check Endpoint"""
-    return JSONResponse(
-        content={
-            "status": "ok",
-            "service": "HLKS Offert-Tool API",
-            "version": "1.0.0"
-        }
-    )
-
-
 @app.get("/health")
 async def health_check():
     """Detaillierter Health Check"""
@@ -153,6 +142,12 @@ async def health_check():
             "storage": "connected"     # TODO: S3-Status prüfen
         }
     )
+
+
+# Frontend (statische Dateien) ausliefern – nur wenn static/ existiert (Docker-Deploy)
+_static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(_static_dir):
+    app.mount("/", StaticFiles(directory=_static_dir, html=True), name="frontend")
 
 
 if __name__ == "__main__":
