@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+.pytest_cache
+.venv
+venv
+env
+
+# IDE
+.cursor
+.vscode
+*.swp
+*.swo
+
+# Frontend (nicht für Backend-Deploy nötig)
+frontend
+node_modules
+
+# Lokale Daten
+backend/data/*.db
+backend/data/*.log
+*.log
+
+# Sonstiges
+*.md
+.DS_Store
